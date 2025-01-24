@@ -147,7 +147,7 @@ const confirmButtonHandlerNew = (e) => {
     // get input values
     let title_input = document.querySelector("#todo-title-input").value;
     const description_input = document.querySelector("#todo-description-input").value;
-    const date_input = new Date(document.querySelector("#todo-date-input").value + 'T00:00');
+    const date_input = (document.querySelector("#todo-date-input").value !== "") ? new Date(document.querySelector("#todo-date-input").value + 'T00:00') : new Date();
     const priority_input = document.querySelector("#todo-priority-input").value;
 
     title_input = (title_input.length > 0) ? title_input : "Untitled";
