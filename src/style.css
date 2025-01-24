@@ -71,12 +71,16 @@ body {
 
     display : grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
 
 }
 
 #due-today {
     border: 1px solid aqua;      
+}
+
+#up_next {
+    border: 1px solid green;      
 }
 
 #recently-completed {
@@ -90,6 +94,8 @@ footer {
 
     display: flex;
     align-items: center;
+    justify-content: flex-end;
+
 }
 
 /* 

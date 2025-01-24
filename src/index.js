@@ -1,7 +1,7 @@
 import {loadHomePage} from "./homePage.js";
 import {loadMenuPage} from "./menuPage.js";
 import {loadContactPage} from "./contactPage.js";
-import {toDo, Project} from "./toDo.js";
+import {toDo, Project, createSampleTask} from "./toDo.js";
 import "./style.css";
 
 // console.log("Hello World!");
@@ -31,9 +31,9 @@ import "./style.css";
 // });
 
 
-const item1 = new toDo("shopping1", "desc1", new Date(2025, 1, 21));
-const item2 = new toDo("shopping2", "desc2", new Date(2025, 5, 14));
-const item3 = new toDo("shopping3", "desc3", new Date(2025, 4, 6));
+const item1 = createSampleTask();
+const item2 = createSampleTask();
+const item3 = createSampleTask();
 
 console.log(item1);
 console.log(item2);
@@ -44,7 +44,17 @@ proj.addToDoItem(item1);
 proj.addToDoItem(item2);
 proj.addToDoItem(item3);
 
+console.log(proj);
 console.log(proj.toDoItems);
+
+proj.removeToDoItem(item2.id);
+console.log(proj.toDoItems);
+
+console.log(proj.getToDoItem(item1.id));
+
+
+// load the home page
+loadHomePage()
 
 
 
