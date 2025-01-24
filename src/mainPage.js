@@ -4,9 +4,12 @@ import plusImage from "./images/plus.svg";
 import avatarImage from "./images/avatar.jpg";
 import settingsImage from "./images/settings.svg";
 import editImage from "./images/edit.svg";
+import {toDo, Project, createSampleTask} from "./toDo.js";
 
 
 const body = document.querySelector("body");
+
+export const allTodoItems = [];
 
 export const addContent = (HTMLelement) => {
     body.appendChild(HTMLelement);
@@ -19,7 +22,7 @@ const clearAllContent = () => {
     }
 };
 
-export const loadHomePage = () => {
+export const loadMainPage = () => {
 
     // clear out all existing content first
     clearAllContent();
@@ -35,6 +38,11 @@ export const loadHomePage = () => {
     content.appendChild(main_panel);
     content.appendChild(footer);
     addContent(content);
+
+
+    allTodoItems.forEach((item) => {
+        addToUpNext(item);        
+    });
 };
 
 
@@ -93,13 +101,30 @@ export const loadToDoEditPage  = () => {
 
 const confirmButtonHandler = (e) => {
     console.log("Clicked on confirm button.");
+    // get input values
+    let title_input = document.querySelector("#todo-title-input").value;
+    const description_input = document.querySelector("#todo-description-input").value;
+    const date_input = new Date(document.querySelector("#todo-date-input").value + 'T00:00');
+    const priority_input = document.querySelector("#todo-priority-input").value;
+
+    title_input = (title_input.length > 0) ? title_input : "Untitled";
+    console.log("Form Inputs: ", title_input, description_input, date_input, priority_input);
+
+    // create new task object
+    // return {title: title_input, description: description_input, date: date_input, priority: priority_input};
+    const todo =  new toDo(title_input, description_input, date_input, false, priority_input);
+    allTodoItems.push(todo);
+
+    // render mainpage again
+    loadMainPage();
 
 };
 
 
 const cancelButtonHandler = (e) => {
     console.log("Clicked on cancel button.");
-
+    // render mainpage again
+    loadMainPage();
 };
 
 
@@ -294,10 +319,11 @@ export const addToUpNext = (todo) => {
     due.classList.add("task-due-date");
     const priority = document.createElement("div");
     priority.classList.add("task-priority");
-    priority.textContent = "!".repeat(todo.priority);
-    task_details.appendChild(priority);
+    // priority.textContent = "!".repeat(todo.priority);
+    priority.textContent = todo.priority;
     task_details.appendChild(title);
     task_details.appendChild(due);
+    task_details.appendChild(priority);
 
     const edit_icon = document.createElement("img");
     edit_icon.src = editImage;
@@ -320,6 +346,8 @@ export const addToUpNext = (todo) => {
 
     console.log(`Added task to Up Next: ${todo.print()}`);
 }
+
+
 
 
 

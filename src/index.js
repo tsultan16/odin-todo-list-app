@@ -1,4 +1,4 @@
-import {loadHomePage, addToUpNext} from "./mainPage.js";
+import {allTodoItems, loadMainPage, addToUpNext} from "./mainPage.js";
 import {toDo, Project, createSampleTask} from "./toDo.js";
 
 import "./style.css";
@@ -27,14 +27,14 @@ console.log(proj.toDoItems);
 console.log(proj.getToDoItem(item1.id));
 
 
-const all = [item1, item2, item3];
+allTodoItems.push(item1);
+allTodoItems.push(item2);
+allTodoItems.push(item3);
+
 
 
 // load the home page
-loadHomePage()
+loadMainPage()
 
-addToUpNext(item1);
-addToUpNext(item2);
-addToUpNext(item3);
 
 
