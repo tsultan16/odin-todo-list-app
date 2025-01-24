@@ -55,8 +55,8 @@ export class Project {
 let sample_task_id = 0;
 
 export function createSampleTask() {
-    // choose a random priority from [1,2,3]
-    const p = 1 + Math.floor(Math.random()*3);
+    // assign random date and priority 
+    const p = ["low", "medium", "high"][Math.floor(Math.random()*3)];
     const item = new toDo(`title${sample_task_id}`, `desc${sample_task_id}`, randomDate(), false, p);
     sample_task_id++;
 
