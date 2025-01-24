@@ -65,7 +65,9 @@ export function createSampleTask() {
 
 // create a random date between [from, to] range
 function randomDate (from = new Date(2025, 0, 21), to = new Date(2025, 11, 31)) {
-    return new Date(from.getTime() + Math.random() * (to.getTime() - from.getTime()));
+    const rand = Math.floor(Math.random()*2);
+    // randomly choose between random date and current date
+    return [new Date(from.getTime() + Math.random() * (to.getTime() - from.getTime())), new Date()][rand]
 }
 
 
