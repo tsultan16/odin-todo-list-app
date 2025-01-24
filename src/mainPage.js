@@ -25,10 +25,17 @@ export const loadHomePage = () => {
     // clear out all existing content first
     clearAllContent();
 
-    createSidebar();
-    createUserInfo();
-    createMainPanel();
-    createFooter();
+    const content = document.createElement("div");
+    content.id = "content";
+    const sidebar = createSidebar();
+    const user_info = createUserInfo();
+    const main_panel = createMainPanel();
+    const footer = createFooter();
+    content.appendChild(sidebar);
+    content.appendChild(user_info);
+    content.appendChild(main_panel);
+    content.appendChild(footer);
+    addContent(content);
 };
 
 
@@ -60,7 +67,7 @@ const createSidebar = () => {
 
     }); 
 
-    addContent(sidebar);
+    return sidebar;
 
 };
 
@@ -88,6 +95,11 @@ const createUserInfo = () => {
     date.id = "today-date";
     date.textContent = "Friday Jan 24"; // hard-coded for now
 
+    const app_title = document.createElement("h2");
+    app_title.id = "today-date";
+    app_title.textContent = "My Todo List App"; // hard-coded for now
+
+
     const user = document.createElement("div");
     user.id = "user";
     const name = document.createElement("p");
@@ -99,8 +111,9 @@ const createUserInfo = () => {
     user.appendChild(avatar_icon)
     
     user_info.appendChild(date);
+    user_info.appendChild(app_title);
     user_info.appendChild(user);
-    addContent(user_info);
+    return user_info;
 
 };
 
@@ -115,7 +128,7 @@ const createMainPanel = () => {
     main_panel.appendChild(due_today);
     main_panel.appendChild(up_next);
     main_panel.appendChild(recently_completed);
-    addContent(main_panel);
+    return main_panel;
     
 }
 
@@ -145,7 +158,7 @@ const createFooter = () => {
     
     footer.appendChild(icon);
     footer.appendChild(button);
-    addContent(footer);;
+    return footer;
 };
 
 
