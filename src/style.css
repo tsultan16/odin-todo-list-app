@@ -6,9 +6,67 @@
     --theme-color-shadow : rgba(36, 184, 155, 0.553);
 }
 
+
 body {
-    background-color: var(--theme-color);
-    color: whitesmoke;
+    height: 100vh;
+    display : grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr 10fr 1fr;
+}
+
+#sidebar {
+    border: 1px solid blue;
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+#sidebar .sidebar-item {
+    display: flex;
+}
+
+#user-info {
+    border: 1px solid red;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+
+}
+
+#main-panel {
+    border: 1px solid green;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+
+    display : grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+
+}
+
+#due-today {
+    border: 1px solid aqua;      
+}
+
+#recently-completed {
+    border: 1px solid maroon;      
+}
+
+footer {
+    border: 1px solid palevioletred;
+    grid-column: 1 / 3;
+    grid-row: 3 / 4;
+
+    display: flex;
+    align-items: center;
+}
+
+/* 
+body {
+    background-color: white;
+    color: black;
 
     display: flex;
     flex-direction: column;
@@ -105,4 +163,4 @@ ul {
     text-align: left;
     font-size: 0.8em;
     margin-bottom: 2em;
-}
+} */
