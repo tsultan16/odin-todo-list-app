@@ -176,7 +176,18 @@ export const addToUpNext = (todo) => {
     const edit_icon = document.createElement("img");
     edit_icon.src = editImage;
     edit_icon.classList.add("task-edit-icon");
-    
+
+    // add the task id to data attribute, will need later for editing
+    edit_icon.dataset.id = String(todo.id);
+
+    // add click handler for edit icon
+    edit_icon.addEventListener("click", (e) => {
+        const target = e.target;
+        const task_id = parseInt(target.dataset.id);
+        console.log(`Clicked edit for task id ${task_id} in Up Next Panel`);
+    });
+
+
     card.appendChild(task_details);
     card.appendChild(edit_icon);
     container.appendChild(card);

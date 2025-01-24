@@ -61,6 +61,7 @@ const all = [item1, item2, item3];
 loadHomePage()
 
 addToUpNext(item1);
-
+addToUpNext(item2);
+addToUpNext(item3);
 
 
