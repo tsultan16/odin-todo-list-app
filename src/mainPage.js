@@ -46,7 +46,7 @@ export const loadMainPage = () => {
 };
 
 
-export const loadToDoEditPage  = () => {
+export const loadToDoEditPage  = (item = null) => {
     // clear out all existing content first
     clearAllContent();
     const content = document.createElement("div");
@@ -80,9 +80,6 @@ export const loadToDoEditPage  = () => {
     button_container.appendChild(confirm_button);
     button_container.appendChild(cancel_button);
 
-    confirm_button.addEventListener("click", confirmButtonHandler);
-    cancel_button.addEventListener("click", cancelButtonHandler);
-      
     form.appendChild(form_heading);
     form.appendChild(title_input);
     form.appendChild(description_input);
@@ -96,10 +93,42 @@ export const loadToDoEditPage  = () => {
     content.appendChild(footer);
     addContent(content);
 
+    if (item != null) {
+        title_input.value = item.title;
+        description_input.value = item.description;
+        date.value = item.dueDate.toISOString().split('T')[0];
+        priority.lastChild.value = item.priority;
+        confirm_button.addEventListener("click", (e) => {
+            console.log("Clicked on confirm button.");
+            console.log(priority);
+            // get updated input values
+            let title_input = document.querySelector("#todo-title-input").value;
+            const description_input = document.querySelector("#todo-description-input").value;
+            const date_input = new Date(document.querySelector("#todo-date-input").value + 'T00:00');
+            const priority_input = document.querySelector("#todo-priority-input").value;
+        
+            title_input = (title_input.length > 0) ? title_input : "Untitled";
+            console.log("Form Inputs: ", title_input, description_input, date_input, priority_input);
+        
+            // update task object
+            item.title = title_input;
+            item.description = description_input;
+            item.dueDate = date_input;
+            item.priority = priority_input;
+        
+            // render mainpage again
+            loadMainPage();
+        });
+
+    } else {
+        confirm_button.addEventListener("click", confirmButtonHandlerNew);
+    }    
+
+    cancel_button.addEventListener("click", cancelButtonHandler);
 
 };
 
-const confirmButtonHandler = (e) => {
+const confirmButtonHandlerNew = (e) => {
     console.log("Clicked on confirm button.");
     // get input values
     let title_input = document.querySelector("#todo-title-input").value;
@@ -117,7 +146,6 @@ const confirmButtonHandler = (e) => {
 
     // render mainpage again
     loadMainPage();
-
 };
 
 
@@ -325,6 +353,16 @@ export const addToUpNext = (todo) => {
     task_details.appendChild(due);
     task_details.appendChild(priority);
 
+    const edit_icon = createTodoEditIcon(todo);
+
+    card.appendChild(task_details);
+    card.appendChild(edit_icon);
+    container.appendChild(card);
+
+    console.log(`Added task to Up Next: ${todo.print()}`);
+};
+
+const createTodoEditIcon = (todo) => {
     const edit_icon = document.createElement("img");
     edit_icon.src = editImage;
     edit_icon.classList.add("task-edit-icon");
@@ -337,15 +375,15 @@ export const addToUpNext = (todo) => {
         const target = e.target;
         const task_id = parseInt(target.dataset.id);
         console.log(`Clicked edit for task id ${task_id} in Up Next Panel`);
+        loadToDoEditPage(todo);
+
     });
+    return edit_icon;
+
+}; 
 
 
-    card.appendChild(task_details);
-    card.appendChild(edit_icon);
-    container.appendChild(card);
 
-    console.log(`Added task to Up Next: ${todo.print()}`);
-}
 
 
 
