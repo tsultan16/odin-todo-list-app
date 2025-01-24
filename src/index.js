@@ -27,9 +27,9 @@ console.log(proj.toDoItems);
 console.log(proj.getToDoItem(item1.id));
 
 
-allTodoItems.push(item1);
-allTodoItems.push(item2);
-allTodoItems.push(item3);
+allTodoItems[item1.id] = item1;
+allTodoItems[item2.id] = item2;
+allTodoItems[item3.id] = item3;
 
 
 

@@ -9,7 +9,7 @@ import {toDo, Project, createSampleTask} from "./toDo.js";
 
 const body = document.querySelector("body");
 
-export const allTodoItems = [];
+export const allTodoItems = {};
 
 export const addContent = (HTMLelement) => {
     body.appendChild(HTMLelement);
@@ -39,10 +39,17 @@ export const loadMainPage = () => {
     content.appendChild(footer);
     addContent(content);
 
+    for (let id in allTodoItems) {
+        if (!allTodoItems[id].completed) {
+            // add incomplete tasks to up next panel
+            addToPanel(allTodoItems[id], "up-next");
+        } else {
+            // add completed tasks to recently completed panel
+            addToPanel(allTodoItems[id], "recently-completed");
+        }
 
-    allTodoItems.forEach((item) => {
-        addToUpNext(item);        
-    });
+    }
+
 };
 
 
@@ -142,7 +149,7 @@ const confirmButtonHandlerNew = (e) => {
     // create new task object
     // return {title: title_input, description: description_input, date: date_input, priority: priority_input};
     const todo =  new toDo(title_input, description_input, date_input, false, priority_input);
-    allTodoItems.push(todo);
+    allTodoItems[todo.id] = todo;
 
     // render mainpage again
     loadMainPage();
@@ -198,6 +205,30 @@ const createSelectInput = (name, options) => {
     input.appendChild(select);
     return input;
 };
+
+const createCheckboxInput = (todo) => {
+    const input = document.createElement("input");
+    input.id = `checkbox-input`;
+    input.type = "checkbox"; 
+    input.dataset.id = String(todo.id);
+    input.name = `todo-checkbox`;
+    input.checked = todo.completed;
+
+    // add click handler for checkbox
+    input.addEventListener("change", (e) => {
+        const target = e.target;
+        const task_id = parseInt(target.dataset.id);
+        console.log(`Clicked checkbox for task id ${task_id}. Checked status: ${target.checked}`);
+        // change task completion state
+        allTodoItems[task_id].completed = target.checked;
+        // rerender page
+        loadMainPage();
+    });
+
+    return input;
+};
+
+
 
 
 export const createSidebar = () => {
@@ -329,8 +360,8 @@ export const createFooter = () => {
 
 
 // add and render a todo item in the up next section of main panel
-export const addToUpNext = (todo) => {
-    const container = document.querySelector("#up-next > .task-container");
+export const addToPanel = (todo, panel="up-next") => {
+    const container = document.querySelector(`#${panel} > .task-container`);
     console.log(container);
 
     // create a task card
@@ -349,6 +380,9 @@ export const addToUpNext = (todo) => {
     priority.classList.add("task-priority");
     // priority.textContent = "!".repeat(todo.priority);
     priority.textContent = todo.priority;
+    const checkbox = createCheckboxInput(todo);
+    
+    task_details.appendChild(checkbox);
     task_details.appendChild(title);
     task_details.appendChild(due);
     task_details.appendChild(priority);
@@ -358,9 +392,11 @@ export const addToUpNext = (todo) => {
     card.appendChild(task_details);
     card.appendChild(edit_icon);
     container.appendChild(card);
-
     console.log(`Added task to Up Next: ${todo.print()}`);
 };
+
+
+
 
 const createTodoEditIcon = (todo) => {
     const edit_icon = document.createElement("img");
