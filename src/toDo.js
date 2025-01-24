@@ -17,6 +17,10 @@ export class toDo {
         this.completed = true;
     }
 
+    print() {
+        return `${this.title}, ${this.description}, ${this.dueDate.toLocaleDateString()}, ${this.priority}`;
+    }
+
 
 };
 
@@ -52,7 +56,9 @@ export class Project {
 let sample_task_id = 0;
 
 export function createSampleTask() {
-    const item = new toDo(`title${sample_task_id}`, `desc${sample_task_id}`, randomDate());
+    // choose a random priority from [1,2,3]
+    const p = 1 + Math.floor(Math.random()*3);
+    const item = new toDo(`title${sample_task_id}`, `desc${sample_task_id}`, randomDate(), false, p);
     sample_task_id++;
 
     return item;

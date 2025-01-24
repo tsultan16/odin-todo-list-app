@@ -4,6 +4,7 @@ import projectsImage from "./images/projects.svg";
 import plusImage from "./images/plus.svg";
 import avatarImage from "./images/avatar.jpg";
 import settingsImage from "./images/settings.svg";
+import editImage from "./images/edit.svg";
 
 
 const body = document.querySelector("body");
@@ -122,8 +123,11 @@ const createMainPanelSection = (name, id) => {
     const section = document.createElement("div");
     section.id = id;
     const section_h4 = document.createElement("h4");
-    section_h4.textContent = name; 
+    section_h4.textContent = name;
+    const container = document.createElement("div");
+    container.classList.add("task-container");    
     section.appendChild(section_h4);
+    section.append(container);
     return section;
 }
 
@@ -143,6 +147,45 @@ const createFooter = () => {
     footer.appendChild(button);
     addContent(footer);;
 };
+
+
+// add and render a todo item in the up next section of main panel
+export const addToUpNext = (todo) => {
+    const container = document.querySelector("#up-next > .task-container");
+    console.log(container);
+
+    // create a task card
+    const card = document.createElement("div");
+    card.classList.add("task-card");
+
+    const task_details = document.createElement("div");
+    task_details.classList.add("task-details");
+    const title = document.createElement("div");
+    title.classList.add("task-title");
+    title.textContent = todo.title;
+    const due = document.createElement("div");
+    due.textContent = todo.dueDate.toLocaleDateString();
+    due.classList.add("task-due-date");
+    const priority = document.createElement("div");
+    priority.classList.add("task-priority");
+    priority.textContent = "!".repeat(todo.priority);
+    task_details.appendChild(priority);
+    task_details.appendChild(title);
+    task_details.appendChild(due);
+
+    const edit_icon = document.createElement("img");
+    edit_icon.src = editImage;
+    edit_icon.classList.add("task-edit-icon");
+    
+    card.appendChild(task_details);
+    card.appendChild(edit_icon);
+    container.appendChild(card);
+
+    console.log(`Added task to Up Next: ${todo.print()}`);
+
+}
+
+
 
 
 

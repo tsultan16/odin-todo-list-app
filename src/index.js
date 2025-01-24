@@ -1,4 +1,4 @@
-import {loadHomePage} from "./homePage.js";
+import {loadHomePage, addToUpNext} from "./homePage.js";
 import {loadMenuPage} from "./menuPage.js";
 import {loadContactPage} from "./contactPage.js";
 import {toDo, Project, createSampleTask} from "./toDo.js";
@@ -31,6 +31,7 @@ import "./style.css";
 // });
 
 
+
 const item1 = createSampleTask();
 const item2 = createSampleTask();
 const item3 = createSampleTask();
@@ -53,8 +54,13 @@ console.log(proj.toDoItems);
 console.log(proj.getToDoItem(item1.id));
 
 
+const all = [item1, item2, item3];
+
+
 // load the home page
 loadHomePage()
+
+addToUpNext(item1);
 
 
 
