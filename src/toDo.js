@@ -51,7 +51,6 @@ export class Project {
 
 
 
-
 // sample task creation
 let sample_task_id = 0;
 

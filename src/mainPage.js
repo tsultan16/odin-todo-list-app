@@ -1,4 +1,3 @@
-import logoImage from "./images/restaurant-logo.svg";
 import tasksImage from "./images/tasks.svg";
 import projectsImage from "./images/projects.svg";
 import plusImage from "./images/plus.svg";
@@ -39,7 +38,116 @@ export const loadHomePage = () => {
 };
 
 
-const createSidebar = () => {
+export const loadToDoEditPage  = () => {
+    // clear out all existing content first
+    clearAllContent();
+    const content = document.createElement("div");
+    content.id = "content";
+    const user_info = createUserInfo();
+    const footer = createFooter();
+
+    const form_container = document.createElement("div");
+    form_container.id = "form-container";
+    const form = document.createElement("form");
+    form.id = "todo-form";
+    const form_heading = document.createElement("h4");
+    form_heading.id = "todo-form-heading";
+    form_heading.textContent = "ToDo Item";
+
+    const title_input = createFormInput("Title", "text", true);
+    const description_input = createFormTextArea("Description");
+    const date = createFormInput("Date", "date", true);
+    const priority = createSelectInput("Priority", ["Low", "Medium", "High"]);
+
+    const button_container = document.createElement("div");
+    button_container.classList.add("button-container");
+    const confirm_button =  document.createElement("button");
+    confirm_button.type = "button";
+    confirm_button.id = "confirm-button"; 
+    confirm_button.textContent = "Confirm";
+    const cancel_button =  document.createElement("button");
+    cancel_button.type = "button";
+    cancel_button.id = "cancel-button"; 
+    cancel_button.textContent = "Cancel";
+    button_container.appendChild(confirm_button);
+    button_container.appendChild(cancel_button);
+
+    confirm_button.addEventListener("click", confirmButtonHandler);
+    cancel_button.addEventListener("click", cancelButtonHandler);
+      
+    form.appendChild(form_heading);
+    form.appendChild(title_input);
+    form.appendChild(description_input);
+    form.appendChild(date);    
+    form.appendChild(priority);    
+    form.appendChild(button_container);    
+    form_container.appendChild(form);
+    
+    content.appendChild(user_info);
+    content.appendChild(form_container);
+    content.appendChild(footer);
+    addContent(content);
+
+
+};
+
+const confirmButtonHandler = (e) => {
+    console.log("Clicked on confirm button.");
+
+};
+
+
+const cancelButtonHandler = (e) => {
+    console.log("Clicked on cancel button.");
+
+};
+
+
+const createFormInput = (name, type, required) => {
+    const input = document.createElement("input");
+    input.type = type;
+    input.id = `todo-${name.toLowerCase()}-input`; 
+    input.classList.add("form-input");
+    input.name = `todo-${name.toLowerCase()}`;
+    input.required = required;
+    input.placeholder = name;
+    return input;
+};
+
+const createFormTextArea = (name) => {
+    const text_area = document.createElement("textarea");
+    text_area.id = `todo-${name.toLowerCase()}-input`; 
+    text_area.classList.add("form-input");
+    text_area.name = `todo-${name.toLowerCase()}`;
+    text_area.placeholder = name;
+    return text_area;
+};
+
+const createSelectInput = (name, options) => {
+    const input = document.createElement("div");
+
+    const label = document.createElement("label");
+    label.for = `todo-${name.toLowerCase()}-input`;
+    label.textContent = name;
+    const select = document.createElement("select");
+    select.id = `todo-${name.toLowerCase()}-input`; 
+    select.classList.add("form-input");
+    select.name = `todo-${name.toLowerCase()}`;
+
+    options.forEach(element => {
+        const option = document.createElement("option");
+        option.value = element.toLowerCase();
+        option.textContent = element;
+        select.appendChild(option);
+    });
+
+    input.appendChild(label);
+    input.appendChild(select);
+    return input;
+};
+
+
+export const createSidebar = () => {
     const sidebar = document.createElement("div");
     sidebar.id = "sidebar";
 
@@ -64,7 +172,12 @@ const createSidebar = () => {
     sidebar.addEventListener("click", (event) => {
         const target_id = event.target.id;
         console.log(`Clicked on ${target_id}!`);
-
+        
+        switch (target_id) {
+            case "new-todo-button":
+                loadToDoEditPage();
+                break;
+        }
     }); 
 
     return sidebar;
@@ -87,7 +200,7 @@ const createSidebarItem = (text, button_id, icon) => {
 };
 
 
-const createUserInfo = () => {
+export const createUserInfo = () => {
     const user_info = document.createElement("div");
     user_info.id = "user-info";
     
@@ -118,7 +231,7 @@ const createUserInfo = () => {
 };
 
 
-const createMainPanel = () => {
+export const createMainPanel = () => {
     const main_panel = document.createElement("div");
     main_panel.id = "main-panel";
 
@@ -144,7 +257,7 @@ const createMainPanelSection = (name, id) => {
     return section;
 }
 
-const createFooter = () => {
+export const createFooter = () => {
     const footer = document.createElement("footer");
     
     const icon = document.createElement("img");
@@ -206,8 +319,20 @@ export const addToUpNext = (todo) => {
     container.appendChild(card);
 
     console.log(`Added task to Up Next: ${todo.print()}`);
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
