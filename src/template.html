@@ -11,27 +11,36 @@
     
 
     <div id="sidebar">
-        <h3>All Projects</h3>
-        <div class="project-item">
-            <p>Project 1</p>
+        <div class="sidebar-section">
+            <div class="sidebar-item">
+                <img class="sidebar-icon" src="./images/tasks.svg" alt="user-avatar">
+                <button type="button">All Tasks</button>
+            </div>
+            <div class="sidebar-item">
+                <img class="sidebar-icon" src="./images/projects.svg" alt="user-avatar">
+                <button type="button">All Projects</button>
+            </div>
         </div>
-        <div class="project-item">
-            <p>Project 2</p>
-        </div>
-        <div class="project-item">
-            <p>Project 3</p>
-        </div>
-        <div class="project-item">
-            <p>Project 4</p>
-        </div>
-        <div class="project-item">
-            <p>Project 5</p>
+
+        <div class="sidebar-section">
+            <div class="add-container">
+                <button type="button">New Project</button>
+            </div>
+            <div class="add-container">
+                <button type="button">New Todo Item</button>
+            </div>
         </div>
     
     </div>
     
     <div id="user-info">
-        <h3>Tanzid Sultan</h3>
+        <div id="today-date">
+            Friday Jan 24
+        </div>
+        <div id="user">
+            <p>Tanzid Sultan<p>
+            <img id="avatar" src="./images/avatar.jpg" alt="user-avatar">
+        </div> 
     </div>
  
     <div id="main-panel">
@@ -42,16 +51,11 @@
         <div id="recently-completed">
             <h4>Recently Completed</h4>
         </div>
-        
+
     </div>
 
     <footer>
-        <div class="add-container">
-            <button type="button">New Project</button>
-        </div>
-        <div class="add-container">
-            <button type="button">New Todo Item</button>
-        </div>
+        <button type="button">Settings</button>
     </footer>
 
 
