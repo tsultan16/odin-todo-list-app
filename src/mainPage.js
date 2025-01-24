@@ -208,7 +208,7 @@ const createSelectInput = (name, options) => {
 
 const createCheckboxInput = (todo) => {
     const input = document.createElement("input");
-    input.id = `checkbox-input`;
+    input.id = `checkbox-input-${todo.id}`;
     input.type = "checkbox"; 
     input.dataset.id = String(todo.id);
     input.name = `todo-checkbox`;
