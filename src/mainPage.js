@@ -39,10 +39,17 @@ export const loadMainPage = () => {
     content.appendChild(footer);
     addContent(content);
 
+    const current_date = new Date().toDateString();    
     for (let id in allTodoItems) {
         if (!allTodoItems[id].completed) {
             // add incomplete tasks to up next panel
             addToPanel(allTodoItems[id], "up-next");
+        
+            if (allTodoItems[id].dueDate.toDateString() === current_date) {
+                // add completed tasks to recently completed panel
+                addToPanel(allTodoItems[id], "due-today");
+            }    
+
         } else {
             // add completed tasks to recently completed panel
             addToPanel(allTodoItems[id], "recently-completed");
@@ -123,7 +130,7 @@ export const loadToDoEditPage  = (item = null) => {
             item.dueDate = date_input;
             item.priority = priority_input;
         
-            // render mainpage again
+            // render main page again
             loadMainPage();
         });
 
@@ -151,7 +158,7 @@ const confirmButtonHandlerNew = (e) => {
     const todo =  new toDo(title_input, description_input, date_input, false, priority_input);
     allTodoItems[todo.id] = todo;
 
-    // render mainpage again
+    // render main page again
     loadMainPage();
 };
 
@@ -206,9 +213,9 @@ const createSelectInput = (name, options) => {
     return input;
 };
 
-const createCheckboxInput = (todo) => {
+const createCheckboxInput = (todo, panel) => {
     const input = document.createElement("input");
-    input.id = `checkbox-input-${todo.id}`;
+    input.id = `checkbox-input-${panel}-${todo.id}`;
     input.type = "checkbox"; 
     input.dataset.id = String(todo.id);
     input.name = `todo-checkbox`;
@@ -227,8 +234,6 @@ const createCheckboxInput = (todo) => {
 
     return input;
 };
-
-
 
 
 export const createSidebar = () => {
@@ -380,7 +385,7 @@ export const addToPanel = (todo, panel="up-next") => {
     priority.classList.add("task-priority");
     // priority.textContent = "!".repeat(todo.priority);
     priority.textContent = todo.priority;
-    const checkbox = createCheckboxInput(todo);
+    const checkbox = createCheckboxInput(todo, panel);
     
     task_details.appendChild(checkbox);
     task_details.appendChild(title);
@@ -394,8 +399,6 @@ export const addToPanel = (todo, panel="up-next") => {
     container.appendChild(card);
     console.log(`Added task to Up Next: ${todo.print()}`);
 };
-
-
 
 
 const createTodoEditIcon = (todo) => {
