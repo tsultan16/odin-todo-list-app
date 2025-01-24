@@ -1,0 +1,108 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    --theme-color : rgb(8, 39, 33);
+    --theme-color-shadow : rgba(36, 184, 155, 0.553);
+}
+
+body {
+    background-color: var(--theme-color);
+    color: whitesmoke;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+nav > ul {
+    margin-top: 1em;
+    display: flex;
+}
+
+nav > ul button {
+    font-size: 1em;
+    font-weight: bold;
+    flex: 1;
+    width: 5em;
+    background-color: var(--theme-color); 
+    color: rgba(162, 250, 219, 0.854);
+    border: 0;
+    
+    text-align: center;
+}
+
+#home, #menu {
+    border-right: 2px solid rgb(0, 25, 9);
+}
+
+nav > ul button:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 2px -3px rgba(127, 255, 212, 0.502);
+    color: white;
+}
+
+#logo {
+    height: 10em;
+}
+
+header {
+    width: 60vw;
+}
+
+#content {
+    width: 60vw;
+    margin: 2em;
+    padding: 1.5em 5em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3em;
+    box-shadow: 0 0 10px 4px var(--theme-color-shadow);
+}
+
+ul {
+    list-style-type: none;
+}
+
+#content h1, #content h2, #content h3, #content ul {
+    text-align: center;
+}
+
+#logo-container {
+    display: flex;
+    justify-content: center;
+}
+
+#opening-hours, #location {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.menu-section-header > em, #opening-hours em, #location em {
+    border-bottom: 1px solid rgba(245, 245, 245, 0.225);
+}
+
+.menu-item-name-price {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.2em;
+}
+
+.menu-item-price {
+    font-size: 0.7em;
+}
+
+.menu-item-desc {
+    text-align: left;
+    font-size: 0.8em;
+    margin-bottom: 2em;
+}
