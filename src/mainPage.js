@@ -295,11 +295,11 @@ export const createUserInfo = () => {
     
     const date = document.createElement("div");
     date.id = "today-date";
-    date.textContent = "Friday Jan 24"; // hard-coded for now
+    date.textContent = new Date().toString().split(" ").slice(0,4).join(" "); 
 
     const app_title = document.createElement("h2");
     app_title.id = "today-date";
-    app_title.textContent = "My Todo List App"; // hard-coded for now
+    app_title.textContent = "My Todo List App"; 
 
 
     const user = document.createElement("div");
