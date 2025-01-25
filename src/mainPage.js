@@ -61,7 +61,86 @@ export const loadMainPage = () => {
 };
 
 
-export const loadToDoEditPage  = (item = null) => {
+const loadAllProjectsPage = () => {
+    // clear out all existing content first
+    clearAllContent();
+    const content = document.createElement("div");
+    content.id = "content";
+    const user_info = createUserInfo();
+    const footer = createFooter();
+
+
+
+    content.appendChild(user_info);
+    // content.appendChild(container);
+    content.appendChild(footer);
+    addContent(content);
+};
+
+
+const loadNewProjectPage = () => {
+    // clear out all existing content first
+    clearAllContent();
+    const content = document.createElement("div");
+    content.id = "content";
+    const user_info = createUserInfo();
+    const footer = createFooter();
+
+
+    const form_container = document.createElement("div");
+    form_container.id = "form-container";
+    
+    const form = document.createElement("form");
+    form.id = "new-project-form";
+    
+    const form_heading = document.createElement("h4");
+    form_heading.id = "project-form-heading";
+    form_heading.textContent = "Project";
+    const title_input = createFormInput("Title", "text", true);
+        
+    const button_container = document.createElement("div");
+    button_container.classList.add("button-container");
+    const confirm_button =  document.createElement("button");
+    confirm_button.type = "button";
+    confirm_button.id = "confirm-button"; 
+    confirm_button.textContent = "Confirm";
+    const cancel_button =  document.createElement("button");
+    cancel_button.type = "button";
+    cancel_button.id = "cancel-button"; 
+    cancel_button.textContent = "Cancel";
+    button_container.appendChild(confirm_button);
+    button_container.appendChild(cancel_button);
+    
+    form.appendChild(form_heading);
+    form.appendChild(title_input);
+    form.appendChild(button_container);   
+    form_container.appendChild(form);
+
+    content.appendChild(user_info);
+    content.appendChild(form_container);
+    content.appendChild(footer);
+    addContent(content);
+
+    // handle button click
+    confirm_button.addEventListener("click", (e) => {
+        console.log("Clicked confirm.");
+
+        // create new project
+        allProjects[title_input.value] = new Project(title_input.value);
+        console.log("Created a new project: ", allProjects[title_input.value] );
+
+        // render All Projects Page
+        loadAllProjectsPage();
+
+    });
+    allProjects[title_input.value] 
+    cancel_button.addEventListener("click", cancelButtonHandler);
+
+}
+
+
+
+const loadToDoEditPage  = (item = null) => {
     // clear out all existing content first
     clearAllContent();
     const content = document.createElement("div");
@@ -77,7 +156,7 @@ export const loadToDoEditPage  = (item = null) => {
     form_heading.id = "todo-form-heading";
     form_heading.textContent = "ToDo Item";
 
-    const title_input = createFormInput("Title", "text", true);
+    const title_input = createFormInput("Task Title", "text", true);
     const description_input = createFormTextArea("Description");
     const date = createFormInput("Date", "date", true);
     const priority = createSelectInput("Priority", ["Low", "Medium", "High"]);
@@ -267,6 +346,14 @@ export const createSidebar = () => {
             case "new-todo-button":
                 loadToDoEditPage();
                 break;
+            
+            case "new-project-button":
+                loadNewProjectPage();
+                break;
+
+            case "all-projects-button":
+                loadAllProjectsPage();
+                break;    
         }
     }); 
 
@@ -290,7 +377,7 @@ const createSidebarItem = (text, button_id, icon) => {
 };
 
 
-export const createUserInfo = () => {
+const createUserInfo = () => {
     const user_info = document.createElement("div");
     user_info.id = "user-info";
     
@@ -321,7 +408,7 @@ export const createUserInfo = () => {
 };
 
 
-export const createMainPanel = () => {
+const createMainPanel = () => {
     const main_panel = document.createElement("div");
     main_panel.id = "main-panel";
 
@@ -335,9 +422,12 @@ export const createMainPanel = () => {
     
 }
 
-const createMainPanelSection = (name, id) => {
+const createMainPanelSection = (name, id, cls = null) => {
     const section = document.createElement("div");
     section.id = id;
+    if (cls !== null) {
+        section.classList.add(cls);
+    }
     const section_h4 = document.createElement("h4");
     section_h4.textContent = name;
     const container = document.createElement("div");
@@ -347,7 +437,7 @@ const createMainPanelSection = (name, id) => {
     return section;
 }
 
-export const createFooter = () => {
+const createFooter = () => {
     const footer = document.createElement("footer");
     
     const icon = document.createElement("img");
@@ -366,7 +456,7 @@ export const createFooter = () => {
 
 
 // add and render a todo item in the up next section of main panel
-export const addToPanel = (todo, panel="up-next") => {
+const addToPanel = (todo, panel="up-next") => {
     const container = document.querySelector(`#${panel} > .task-container`);
     console.log(container);
 

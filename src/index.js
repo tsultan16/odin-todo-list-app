@@ -1,4 +1,4 @@
-import {allTodoItems, allProjects, loadMainPage, addToUpNext} from "./mainPage.js";
+import {allTodoItems, allProjects, loadMainPage} from "./mainPage.js";
 import {toDo, Project, createSampleTask} from "./toDo.js";
 
 import "./style.css";
