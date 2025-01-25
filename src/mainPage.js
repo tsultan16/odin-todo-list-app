@@ -1,15 +1,16 @@
 import tasksImage from "./images/tasks.svg";
 import projectsImage from "./images/projects.svg";
 import plusImage from "./images/plus.svg";
-import avatarImage from "./images/avatar.jpg";
+import avatarImage from "./images/avatar.svg";
 import settingsImage from "./images/settings.svg";
 import editImage from "./images/edit.svg";
 import {toDo, Project, createSampleTask} from "./toDo.js";
 
 
 const body = document.querySelector("body");
-
+const PRIORITY_MAP = {"low": "!", "medium": "!!", "high": "!!!"};
 export const allTodoItems = {};
+export const allProjects = {};
 
 export const addContent = (HTMLelement) => {
     body.appendChild(HTMLelement);
@@ -378,18 +379,24 @@ export const addToPanel = (todo, panel="up-next") => {
     const title = document.createElement("div");
     title.classList.add("task-title");
     title.textContent = todo.title;
-    const due = document.createElement("div");
-    due.textContent = todo.dueDate.toLocaleDateString();
-    due.classList.add("task-due-date");
+    
     const priority = document.createElement("div");
     priority.classList.add("task-priority");
     // priority.textContent = "!".repeat(todo.priority);
-    priority.textContent = todo.priority;
+    priority.textContent = PRIORITY_MAP[todo.priority];
     const checkbox = createCheckboxInput(todo, panel);
     
+
     task_details.appendChild(checkbox);
     task_details.appendChild(title);
-    task_details.appendChild(due);
+    if (panel !== "due-today") {
+        const due = document.createElement("div");
+        // due.textContent = todo.dueDate.toLocaleDateString();
+        due.textContent = todo.dueDate.toString().split(" ").slice(1,4).join(" ");
+        due.classList.add("task-due-date");
+        
+        task_details.appendChild(due);
+    }
     task_details.appendChild(priority);
 
     const edit_icon = createTodoEditIcon(todo);
