@@ -72,19 +72,48 @@ const loadAllProjectsPage = () => {
     const container = document.createElement("div");
     container.id = "all-projects-container";
     const section = createMainPanelSection("All Projects", "all-projects");
-
-    for (let title in allProjects) {
-
-    }
-
-
     container.appendChild(section);
 
     content.appendChild(user_info);
     content.appendChild(container);
     content.appendChild(footer);
     addContent(content);
+    
+    for (let title in allProjects) {
+        addProjectToPanel(allProjects[title], section);
+    }
 };
+
+
+const loadProjectDetails = (proj) => {
+    // clear out all existing content first
+    clearAllContent();
+    const content = document.createElement("div");
+    content.id = "content";
+    const user_info = createUserInfo();
+    const footer = createFooter();
+
+    const section = createMainPanelSection(proj.title, "all-todos");
+    console.log("All todos section: ", section);
+
+    // add tasks to section panel
+    const tasks = proj.toDoItems; 
+    for (let task_id in tasks) {
+        const task = tasks[task_id];
+        console.log("Adding task: ", task)
+        addTaskToPanel(task, "all-todos", section.lastChild);
+    }
+
+    // need add/remove tasks feature
+    // need a back to main page button
+    
+    content.appendChild(user_info);
+    content.appendChild(section);
+    content.appendChild(footer);
+    addContent(content);
+
+};
+
 
 
 const loadNewProjectPage = () => {
@@ -465,12 +494,17 @@ const createFooter = () => {
 
 
 // add and render a todo item in the up next section of main panel
-const addTaskToPanel = (todo, panel="up-next") => {
-    const container = document.querySelector(`#${panel} > .task-container`);
+const addTaskToPanel = (todo, panel="up-next", task_container=null) => {
+    let container;
+    if (task_container === null) {
+        container = document.querySelector(`#${panel} > .task-container`);
+    } else {
+        container = task_container;
+    }
 
     // create a task card
     const card = document.createElement("div");
-    card.classList.add("task-card");
+    card.classList.add("panel-card");
 
     const task_details = document.createElement("div");
     task_details.classList.add("task-details");
@@ -507,43 +541,30 @@ const addTaskToPanel = (todo, panel="up-next") => {
 
 
 // add and render a todo item in the up next section of main panel
-const addProjectToPanel = (proj, container) => {
-    
+const addProjectToPanel = (proj, section) => {
+    const container = section.lastChild;
+
     // create a project card
     const card = document.createElement("div");
-    card.classList.add("task-card");
+    card.classList.add("panel-card");
 
     const task_details = document.createElement("div");
     task_details.classList.add("task-details");
     const title = document.createElement("div");
     title.classList.add("task-title");
-    title.textContent = todo.title;
-    
-    const priority = document.createElement("div");
-    priority.classList.add("task-priority");
-    // priority.textContent = "!".repeat(todo.priority);
-    priority.textContent = PRIORITY_MAP[todo.priority];
-    const checkbox = createCheckboxInput(todo, panel);
-    
-
-    task_details.appendChild(checkbox);
+    title.textContent = proj.title;
     task_details.appendChild(title);
-    if (panel !== "due-today") {
-        const due = document.createElement("div");
-        // due.textContent = todo.dueDate.toLocaleDateString();
-        due.textContent = todo.dueDate.toString().split(" ").slice(1,4).join(" ");
-        due.classList.add("task-due-date");
-        
-        task_details.appendChild(due);
-    }
-    task_details.appendChild(priority);
 
-    const edit_icon = createTodoEditIcon(todo);
+    // add click handler for showing project details page
+    card.addEventListener("click", (e) => {
+        console.log(`Clicked on project: ${proj.title}`);
+        loadProjectDetails(proj);
+
+    });
 
     card.appendChild(task_details);
-    card.appendChild(edit_icon);
     container.appendChild(card);
-    console.log(`Added task to Up Next: ${todo.print()}`);
+    console.log(`Added project to All Projects panel: ${proj.title}`);
 };
 
 
