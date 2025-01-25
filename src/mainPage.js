@@ -44,16 +44,16 @@ export const loadMainPage = () => {
     for (let id in allTodoItems) {
         if (!allTodoItems[id].completed) {
             // add incomplete tasks to up next panel
-            addToPanel(allTodoItems[id], "up-next");
+            addTaskToPanel(allTodoItems[id], "up-next");
         
             if (allTodoItems[id].dueDate.toDateString() === current_date) {
                 // add completed tasks to recently completed panel
-                addToPanel(allTodoItems[id], "due-today");
+                addTaskToPanel(allTodoItems[id], "due-today");
             }    
 
         } else {
             // add completed tasks to recently completed panel
-            addToPanel(allTodoItems[id], "recently-completed");
+            addTaskToPanel(allTodoItems[id], "recently-completed");
         }
 
     }
@@ -69,10 +69,19 @@ const loadAllProjectsPage = () => {
     const user_info = createUserInfo();
     const footer = createFooter();
 
+    const container = document.createElement("div");
+    container.id = "all-projects-container";
+    const section = createMainPanelSection("All Projects", "all-projects");
 
+    for (let title in allProjects) {
+
+    }
+
+
+    container.appendChild(section);
 
     content.appendChild(user_info);
-    // content.appendChild(container);
+    content.appendChild(container);
     content.appendChild(footer);
     addContent(content);
 };
@@ -456,11 +465,51 @@ const createFooter = () => {
 
 
 // add and render a todo item in the up next section of main panel
-const addToPanel = (todo, panel="up-next") => {
+const addTaskToPanel = (todo, panel="up-next") => {
     const container = document.querySelector(`#${panel} > .task-container`);
-    console.log(container);
 
     // create a task card
+    const card = document.createElement("div");
+    card.classList.add("task-card");
+
+    const task_details = document.createElement("div");
+    task_details.classList.add("task-details");
+    const title = document.createElement("div");
+    title.classList.add("task-title");
+    title.textContent = todo.title;
+    
+    const priority = document.createElement("div");
+    priority.classList.add("task-priority");
+    // priority.textContent = "!".repeat(todo.priority);
+    priority.textContent = PRIORITY_MAP[todo.priority];
+    const checkbox = createCheckboxInput(todo, panel);
+    
+
+    task_details.appendChild(checkbox);
+    task_details.appendChild(title);
+    if (panel !== "due-today") {
+        const due = document.createElement("div");
+        // due.textContent = todo.dueDate.toLocaleDateString();
+        due.textContent = todo.dueDate.toString().split(" ").slice(1,4).join(" ");
+        due.classList.add("task-due-date");
+        
+        task_details.appendChild(due);
+    }
+    task_details.appendChild(priority);
+
+    const edit_icon = createTodoEditIcon(todo);
+
+    card.appendChild(task_details);
+    card.appendChild(edit_icon);
+    container.appendChild(card);
+    console.log(`Added task to Up Next: ${todo.print()}`);
+};
+
+
+// add and render a todo item in the up next section of main panel
+const addProjectToPanel = (proj, container) => {
+    
+    // create a project card
     const card = document.createElement("div");
     card.classList.add("task-card");
 
